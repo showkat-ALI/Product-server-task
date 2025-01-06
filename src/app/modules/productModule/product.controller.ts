@@ -22,6 +22,26 @@ const crateProduct = async (req: Request, res: Response) => {
     });
   }
 };
+const createOrder = async (req: Request, res: Response) => {
+  try {
+    const { product: ProductDATA } = req.body;
+    const zodParsedData = productValidationSchema.parse(ProductDATA);
+
+    const result = await productServices.createProductToDB(zodParsedData);
+
+    res.status(200).json({
+      success: true,
+      message: "Product is created successfully",
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || "something went wrong",
+      error: err,
+    });
+  }
+};
 
 const getAllProducts = async (req: Request, res: Response) => {
   try {
@@ -41,16 +61,16 @@ const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-const getSingleProduct = async (req: Request, res: Response) => {
+const deleteAProduct = async (req: Request, res: Response) => {
   try {
     const { productID } = req.params;
 
-    const result = await productServices.getSingleProductsFromDB(productID);
+    await productServices.deleteProductFromDB(productID);
 
     res.status(200).json({
       success: true,
-      message: "Product is retrieved succesfully",
-      data: result,
+      message: "Product is deleted successfully",
+      data: null,
     });
   } catch (err: any) {
     res.status(500).json({
@@ -60,26 +80,6 @@ const getSingleProduct = async (req: Request, res: Response) => {
     });
   }
 };
-
-// const deleteStudent = async (req: Request, res: Response) => {
-//   try {
-//     const { studentId } = req.params;
-
-//     const result = await StudentServices.deleteStudentFromDB(studentId);
-
-//     res.status(200).json({
-//       success: true,
-//       message: 'Student is deleted succesfully',
-//       data: result,
-//     });
-//   } catch (err: any) {
-//     res.status(500).json({
-//       success: false,
-//       message: err.message || 'something went wrong',
-//       error: err,
-//     });
-//   }
-// };
 const updateAProduct = async (req: Request, res: Response) => {
   const updatedData = req.body;
   const productID = req.params.productID;
@@ -102,10 +102,50 @@ const updateAProduct = async (req: Request, res: Response) => {
     });
   }
 };
+const getASingleProduct = async (req: Request, res: Response) => {
+  try {
+    const { productID } = req.params;
+
+    const result = await productServices.getSingleProductsFromDB(productID);
+    res.status(200).json({
+      success: true,
+      message: "Product retrieve Successfully",
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || "something went wrong",
+      error: err,
+    });
+  }
+};
+const getProductsBYsearch = async (req: Request, res: Response) => {
+  try {
+    const searchItem = req.query.searchTerm as string;
+    console.log(searchItem);
+    const result = await productServices.getProductsbySerachFromDB(searchItem);
+
+    res.status(200).json({
+      success: true,
+      message: `Products matching search term ${searchItem}fetched successfully!`,
+      data: result,
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || "something went wrong",
+      error: err,
+    });
+  }
+};
 
 export const productController = {
   crateProduct,
   getAllProducts,
-  getSingleProduct,
+  getProductsBYsearch,
   updateAProduct,
+  deleteAProduct,
+  getASingleProduct,
+  createOrder,
 };
