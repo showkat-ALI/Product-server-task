@@ -10,7 +10,9 @@ export interface TOrder {
 
 //for creating static
 
-export interface OrderModel extends Model<TOrder> {}
+export interface OrderModel extends Model<TOrder> {
+  isproductExist(id: string): Promise<TOrder | null>;
+}
 
 // for creating instance
 
