@@ -3,16 +3,14 @@ import { Product } from "../productModule/product.model";
 import { TOrder } from "./order.interface";
 import { Order } from "./order.model";
 const createOrderToDB = async (OrderDATA: TOrder) => {
-  const product: TProduct | null = await Order.isproductExist(
-    OrderDATA.productId
-  );
+  const product: TProduct = await Order.isproductExist(OrderDATA.productId);
   if (!product) {
     throw new Error("Product does not exist");
   }
 
-  if (product.inventory.quantity >= OrderDATA.quantity) {
+  if (product?.inventory?.quantity >= OrderDATA.quantity) {
     // Calculate the new quantity
-    const newQuantity = product.inventory.quantity - OrderDATA.quantity;
+    const newQuantity = product?.inventory?.quantity - OrderDATA.quantity;
     const inStock = newQuantity > 0;
 
     // Update the product inventory

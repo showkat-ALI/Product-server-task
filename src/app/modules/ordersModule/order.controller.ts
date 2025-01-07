@@ -120,7 +120,6 @@ const getAllOrders = async (req: Request, res: Response) => {
 const getOrdersBYsearch = async (req: Request, res: Response) => {
   try {
     const searchItem = req.query.email as string;
-    console.log(searchItem);
     const result = await orderServices.getordersbySerachFromDB(searchItem);
 
     res.status(200).json({
