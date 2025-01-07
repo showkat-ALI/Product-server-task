@@ -1,4 +1,5 @@
 import { Model } from "mongoose";
+import { TProduct } from "../productModule/product.interface";
 
 export interface TOrder {
   id: string;
@@ -11,7 +12,7 @@ export interface TOrder {
 //for creating static
 
 export interface OrderModel extends Model<TOrder> {
-  isproductExist(id: string): Promise<TOrder | null>;
+  isproductExist(id: string): Promise<TProduct>;
 }
 
 // for creating instance
