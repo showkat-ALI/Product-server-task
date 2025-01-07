@@ -1,11 +1,13 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod };
+  };
 Object.defineProperty(exports, "__esModule", { value: true });
 const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
-const product_route_1 = require("./app/modules/productModule/product.route");
+const product_route_1 = require("./app/modules/ProductModule/product.route");
 const order_route_1 = require("./app/modules/ordersModule/order.route");
 const app = (0, express_1.default)();
 //parsers
